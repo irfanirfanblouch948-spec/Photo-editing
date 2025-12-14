@@ -1,102 +1,82 @@
-<!DOCTYPE html>
-<html lang="ur" dir="rtl">
+<!DOCTYPE html><html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>IRFAN LEGEND — Poetry</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>IRFAN LEGEND • Photo Editor</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
 <style>
-  /* basic reset */
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%}
+:root{
+  --g1:#ff0080; --g2:#00ffd5; --g3:#ffd000; --g4:#7b61ff;
+}
+*{box-sizing:border-box;font-family:Poppins,system-ui,-apple-system}
+body{
+  margin:0; min-height:100vh; color:#fff; background:#0b0f14; overflow-x:hidden;
+}
+/* animated lights */
+.lights::before{
+  content:""; position:fixed; inset:-20%; z-index:-1;
+  background:conic-gradient(from 0deg,var(--g1),var(--g2),var(--g3),var(--g4),var(--g1));
+  filter:blur(120px); animation:spin 18s linear infinite; opacity:.35;
+}
+@keyframes spin{to{transform:rotate(360deg)}}header{ padding:28px 16px 12px; text-align:center; } .title{ font-size:clamp(28px,6vw,44px); font-weight:800; letter-spacing:1px; background:linear-gradient(90deg,#ffd000,#ff7ad9,#7b61ff,#00ffd5); -webkit-background-clip:text; background-clip:text; color:transparent; animation:shine 6s linear infinite; } @keyframes shine{to{background-position:400% 0}} .subtitle{opacity:.85; margin-top:6px} .phone{margin-top:6px; opacity:.8}
 
-  /* background: اگر آپ نے اپنا background.jpg فائل رکھی ہے تو وہ لوڈ ہو گا.
-     ورنہ نیچے والی url کو ہٹا کر اپنی image کا نام رکھ دیں یا base64 استعمال کریں */
-  body{
-    background: url('background.jpg') center/cover no-repeat fixed;
-    /* اگر آپ base64 بیک گراؤنڈ استعمال کر رہے ہیں تو یہاں پر اُس کا data-url رکھیں */
-    font-family: "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", serif;
-    color: #fff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:24px;
-  }
+.container{max-width:980px; margin:0 auto; padding:16px} .card{ background:rgba(255,255,255,.08); backdrop-filter:blur(10px); border-radius:18px; box-shadow:0 20px 40px rgba(0,0,0,.35); padding:16px; margin-bottom:16px } .grid{display:grid; grid-template-columns:1fr; gap:16px} @media(min-width:768px){.grid{grid-template-columns:1.2fr .8fr}}
 
-  /* ایک تاریک overlay تاکہ شاعری واضح دکھے */
-  .overlay{
-    background: linear-gradient(rgba(0,0,0,0.62), rgba(0,0,0,0.62));
-    position: absolute;
-    inset:0;
-    z-index:0;
-  }
+.preview{ display:flex; align-items:center; justify-content:center; min-height:280px; border-radius:14px; background:#0f1620; overflow:hidden } .preview img{max-width:100%; max-height:100%; display:block}
 
-  .card{
-    position:relative;
-    z-index:1;
-    max-width:1100px;
-    width:100%;
-    padding:40px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:22px;
-  }
+.controls label{display:block; font-size:13px; opacity:.85} .controls input[type=range]{width:100%} .controls .row{margin-bottom:12px} .buttons{display:flex; gap:10px; flex-wrap:wrap} button{ border:0; padding:10px 14px; border-radius:12px; cursor:pointer; color:#0b0f14; background:linear-gradient(135deg,#ffd000,#00ffd5); font-weight:600 } button.alt{background:linear-gradient(135deg,#ff7ad9,#7b61ff)} footer{text-align:center; opacity:.7; padding:14px} </style>
 
-  /* نام */
-  .name{
-    font-size: clamp(28px, 4.5vw, 48px); /* responsive */
-    color:#ffd76b;
-    letter-spacing:1px;
-    font-weight:800;
-    text-shadow: 0 6px 24px rgba(0,0,0,0.6);
-  }
-
-  /* شاعری — یہاں سب سے بڑا سٹائل */
-  .poem{
-    width:100%;
-    max-width:900px;
-    background: rgba(0,0,0,0.35);
-    padding: 28px 30px;
-    border-radius: 14px;
-    text-align:center;
-    font-size: clamp(28px, 6.5vw, 56px); /* بہت بڑی اور responsive */
-    line-height: 1.25;
-    color: #fff;
-    font-weight:600;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-    backdrop-filter: blur(3px);
-  }
-
-  /* چھوٹے نوٹس */
-  .note{
-    font-size: clamp(12px, 2.2vw, 16px);
-    color: rgba(255,255,255,0.8);
-    margin-top:6px;
-  }
-
-  /* responsive adjustments */
-  @media (max-width:520px){
-    .card{padding:20px; gap:14px}
-    .poem{padding:20px;border-radius:10px;line-height:1.2}
-  }
-</style>
 </head>
-<body>
-
-  <div class="overlay" aria-hidden="true"></div>
-
-  <main class="card" role="main" aria-label="Poetry">
-    <div class="name">IRFAN LEGEND</div>
-
-    <div class="poem">
-      کسی نے پوچھا: درد کی انتہا کیا ہے؟<br>
-      میں نے کہا:<br>
-      وہ حال جو ہم بتا بھی نہ سکیں<br>
-      اور کوئی سمجھ بھی نہ سکے…
+<body class="lights">
+<header>
+  <div class="title">IRFAN LEGEND</div>
+  <div class="subtitle">Photo Editing App • HTML Demo</div>
+  <div class="phone">+923360564748</div>
+</header><div class="container">
+  <div class="card grid">
+    <div class="preview" id="preview"><span>Upload a photo</span></div>
+    <div class="controls">
+      <div class="row"><label>Upload Image</label><input type="file" id="file" accept="image/*"></div>
+      <div class="row"><label>Brightness</label><input type="range" id="bright" min="50" max="150" value="100"></div>
+      <div class="row"><label>Contrast</label><input type="range" id="cont" min="50" max="150" value="100"></div>
+      <div class="row"><label>Saturation</label><input type="range" id="sat" min="0" max="200" value="100"></div>
+      <div class="row"><label>Hue</label><input type="range" id="hue" min="0" max="360" value="0"></div>
+      <div class="row"><label>Blur</label><input type="range" id="blur" min="0" max="10" value="0"></div>
+      <div class="buttons">
+        <button onclick="resetFx()">Reset</button>
+        <button class="alt" onclick="downloadImg()">Download</button>
+      </div>
     </div>
+  </div>  <div class="card">
+    <b>Note:</b> Ye demo HTML editor hai (front‑end). Video editing / advanced effects ke liye native app ya backend chahiye.
+  </div>
+</div><footer>© Irfan Legend</footer><script>
+let img;
+const preview = document.getElementById('preview');
+const f = id=>document.getElementById(id);
 
-    <div class="note">یہ صفحہ ذاتی اظہارِ خیال کے لیے ہے — پسند آئے تو شیئر کریں۔</div>
-  </main>
+function apply(){
+  if(!img) return;
+  const filter = `brightness(${f('bright').value}%) contrast(${f('cont').value}%) saturate(${f('sat').value}%) hue-rotate(${f('hue').value}deg) blur(${f('blur').value}px)`;
+  img.style.filter = filter;
+}
+['bright','cont','sat','hue','blur'].forEach(id=>f(id).addEventListener('input',apply));
 
-</body>
+f('file').addEventListener('change',e=>{
+  const file=e.target.files[0]; if(!file) return;
+  const url=URL.createObjectURL(file);
+  preview.innerHTML=''; img=new Image(); img.src=url; preview.appendChild(img);
+  img.onload=apply;
+});
+
+function resetFx(){['bright','cont','sat','hue','blur'].forEach((id,i)=>{f(id).value=[100,100,100,0,0][i]}); apply();}
+
+function downloadImg(){
+  if(!img) return alert('Upload image first');
+  const c=document.createElement('canvas'); const ctx=c.getContext('2d');
+  c.width=img.naturalWidth; c.height=img.naturalHeight;
+  ctx.filter=img.style.filter||'none'; ctx.drawImage(img,0,0);
+  const a=document.createElement('a'); a.download='irfan-legend-edit.png'; a.href=c.toDataURL('image/png'); a.click();
+}
+</script></body>
 </html>
